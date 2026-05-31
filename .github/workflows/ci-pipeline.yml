@@ -1,0 +1,40 @@
+name: Continuous Integration Process (Java)
+
+# 1. Триггер на push и возможность ручного запуска (workflow_dispatch)
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+# Разрешаем воркфлоу пушить изменения обратно в репозиторий
+permissions:
+  contents: write
+
+jobs:
+  build-and-test:
+    # 2. Выбор операционной системы
+    runs-on: ubuntu-latest
+
+    steps:
+      # 3. Клонирование проекта
+      - name: Clone the project repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Скачиваем историю коммитов для корректного Git Push
+
+      # 4. Установка ПО (Настройка Java Development Kit - JDK)
+      - name: Install Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Укажите вашу версию: 11, 17, 21 и т.д.
+          distribution: 'temurin' # Популярный стабильный дистрибутив OpenJDK
+          cache: 'maven'
+
+      # MAVEN:
+      - name: Build and Test with Maven
+        run: mvn clean package
+
+          
+         
