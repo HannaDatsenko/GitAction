@@ -1,2 +1,1 @@
-# GitAction
-DevOps Course 2
+# Github Action. Continuous Integration
